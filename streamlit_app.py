@@ -95,7 +95,7 @@ with st.expander("About this app"):
     st.write("""
     🎈 Welcome to our [Streamlit](https://streamlit.io) Chatbot app where you can interact with Meta's new [Llama 3](https://llama.meta.com/llama3/) `8B-Instruct` and Mixtral `8X7B`:
 
-    - **Select LLM Model**: Pick your favorite from options like `Llama 3 8B-Instruct` and `Mixtral 8X7B`.
+    - **Select LLM Model**: Pick your model between `Llama 3 8B-Instruct` and `Mixtral 8X7B` (more soon).
     - **Max Tokens**: You can set the max number of tokens for the model's response, anywhere from `100` to a `30,000`.
     - **Top P**: Tweak the probability threshold for random sampling.
     
