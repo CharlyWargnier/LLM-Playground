@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 import requests
 
-st.set_page_config(page_title="CodeLlama Playground - via DeepInfra", page_icon='🦙')
+st.set_page_config(page_title="Open-LLM Playground - via DeepInfra", page_icon='🦙')
 
 MODEL_IMAGES = {
     "meta-llama/Meta-Llama-3-8B-Instruct": "https://em-content.zobj.net/source/twitter/376/llama_1f999.png",  # Add the emoji for the Meta-Llama model
@@ -99,24 +99,25 @@ with st.expander("About this app"):
     This Chatbot app allows users to interact with various models including the new LLM models hosted on DeepInfra's OpenAI compatible API.
     For more info, you can refer to [DeepInfra's documentation](https://deepinfra.com/docs/advanced/openai_api).
 
-    💡 For decent answers, you'd want to increase the `Max Tokens` value from `100` to `500`. 
     """)
 
 if "api_key" not in st.session_state:
     st.session_state.api_key = ""
 
 with st.sidebar:
-    max_tokens = st.slider('Max Tokens', 10, 500, 100)
+    #max_tokens = st.slider('Max Tokens', 500, 500, 100000)
+    max_tokens = st.slider('Max Tokens', min_value=100, max_value=100000, value=200, step=100)
+
     top_p = st.slider('Top P', 0.0, 1.0, 0.5, 0.05)
 
-if max_tokens > 100:
+if max_tokens > 500:
     user_provided_api_key = st.text_input("👇 Your DeepInfra API Key", value=st.session_state.api_key, type='password')
     if user_provided_api_key:
         st.session_state.api_key = user_provided_api_key
     if not st.session_state.api_key:
-        st.warning("❄️ If you want to try this app with more than `100` tokens, you must provide your own DeepInfra API key. Get yours here → https://deepinfra.com/dash/api_keys")
+        st.warning("❄️ If you want to try this app with more than `500` tokens, you must provide your own DeepInfra API key. Get yours here → https://deepinfra.com/dash/api_keys")
 
-if max_tokens <= 100 or st.session_state.api_key:
+if max_tokens <= 512 or st.session_state.api_key:
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
         
