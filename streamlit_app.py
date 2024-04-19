@@ -89,16 +89,17 @@ def get_response(api_key, model, user_input, max_tokens, top_p):
     except Exception as e:
         return None, str(e)
 
-
-
-# Adjust the title based on the selected model
 st.header(f"`{model_display_name}` Model")
 
 with st.expander("About this app"):
-    st.write(f"""
-    This Chatbot app allows users to interact with various models including the new LLM models hosted on DeepInfra's OpenAI compatible API.
-    For more info, you can refer to [DeepInfra's documentation](https://deepinfra.com/docs/advanced/openai_api).
+    st.write("""
+    This Chatbot app allows users to interact with various large language models (LLMs) hosted on DeepInfra's OpenAI compatible API. The app provides the following configuration options for interacting with the models:
 
+    - **Select LLM Model**: Choose from the available models such as 'Llama 3 8B-Instruct' and 'Mixtral 8X7B'.
+    - **Max Tokens**: Set the maximum number of tokens for the model's response, ranging from 100 to 30,000.
+    - **Top P**: Adjust the probability threshold for random sampling in the models, with values ranging from 0.00 to 1.00.
+
+    For more information on how to use these models, refer to [DeepInfra's documentation](https://deepinfra.com/docs/advanced/openai_api).
     """)
 
 if "api_key" not in st.session_state:
