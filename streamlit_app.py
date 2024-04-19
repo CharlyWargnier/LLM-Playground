@@ -5,7 +5,7 @@ import requests
 st.set_page_config(page_title="Open-LLM Playground - via DeepInfra", page_icon='🦙')
 
 MODEL_IMAGES = {
-    "meta-llama/Meta-Llama-3-8B-Instruct": "https://em-content.zobj.net/source/twitter/376/llama_1f999.png",  # Add the emoji for the Meta-Llama model
+    "meta-llama/Meta-Llama-3-8B-Instruct": "https://em-content.zobj.net/source/twitter/376/llama_1f999.png",
     "codellama/CodeLlama-34b-Instruct-hf": "https://em-content.zobj.net/source/twitter/376/llama_1f999.png",
     "mistralai/Mistral-7B-Instruct-v0.1": "https://em-content.zobj.net/source/twitter/376/tornado_1f32a-fe0f.png",
     "mistralai/Mixtral-8x7B-Instruct-v0.1": "https://em-content.zobj.net/source/twitter/376/tornado_1f32a-fe0f.png",
@@ -16,21 +16,17 @@ def format_model_name(model_key):
     parts = model_key.split('/')
     model_name = parts[-1]  # Get the last part after '/'
     name_parts = model_name.split('-')
-
-    # Custom formatting for specific models
+    
     if "Meta-Llama-3-8B-Instruct" in model_key:
         return "Llama 3 8B-Instruct"
+    elif "codellama/CodeLlama-34b-Instruct-hf" in model_key or "mistralai/Mistral-7B-Instruct-v0.1" in model_key:
+        return None  # Filter out Codellama 34B and Mistral 7B
     else:
-        # General formatting for other models
-        formatted_name = ' '.join(name_parts[:-2]).title()  # Join them into a single string with title case
+        formatted_name = ' '.join(name_parts[:-2]).title()  # General formatting for other models
         return formatted_name
 
-formatted_names_to_identifiers = {
-    format_model_name(key): key for key in MODEL_IMAGES.keys()
-}
-
-# Debug to ensure names are formatted correctly
-#st.write("Formatted Model Names to Identifiers:", formatted_names_to_identifiers)
+# Filter out None values and create a final dictionary of models to display
+formatted_names_to_identifiers = {format_model_name(key): key for key in MODEL_IMAGES.keys() if format_model_name(key) is not None}
 
 selected_formatted_name = st.sidebar.radio(
     "Select LLM Model",
@@ -43,6 +39,10 @@ if MODEL_IMAGES[selected_model].startswith("http"):
     st.image(MODEL_IMAGES[selected_model], width=90)
 else:
     st.write(f"Model Icon: {MODEL_IMAGES[selected_model]}", unsafe_allow_html=True)
+
+
+
+
 
 # Display the selected model using the formatted name
 model_display_name = selected_formatted_name  # Already formatted
@@ -106,7 +106,7 @@ if "api_key" not in st.session_state:
 
 with st.sidebar:
     #max_tokens = st.slider('Max Tokens', 500, 500, 100000)
-    max_tokens = st.slider('Max Tokens', min_value=100, max_value=100000, value=200, step=100)
+    max_tokens = st.slider('Max Tokens', min_value=100, max_value=30000 , value=200, step=100)
 
     top_p = st.slider('Top P', 0.0, 1.0, 0.5, 0.05)
 
