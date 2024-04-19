@@ -93,13 +93,13 @@ st.header(f"`{model_display_name}` Model")
 
 with st.expander("About this app"):
     st.write("""
-    This Chatbot app allows users to interact with various large language models (LLMs) hosted on DeepInfra's OpenAI compatible API. The app provides the following configuration options for interacting with the models:
+    🎈 Welcome to our [Streamlit](https://streamlit.io) Chatbot app where you can interact with Meta's new [Llama 3](https://llama.meta.com/llama3/) `8B-Instruct` and Mixtral `8X7B`:
 
-    - **Select LLM Model**: Choose from the available models such as 'Llama 3 8B-Instruct' and 'Mixtral 8X7B'.
-    - **Max Tokens**: Set the maximum number of tokens for the model's response, ranging from 100 to 30,000.
-    - **Top P**: Adjust the probability threshold for random sampling in the models, with values ranging from 0.00 to 1.00.
-
-    For more information on how to use these models, refer to [DeepInfra's documentation](https://deepinfra.com/docs/advanced/openai_api).
+    - **Select LLM Model**: Pick your favorite from options like `Llama 3 8B-Instruct` and `Mixtral 8X7B`.
+    - **Max Tokens**: You can set the max number of tokens for the model's response, anywhere from `100` to a `30,000`.
+    - **Top P**: Tweak the probability threshold for random sampling.
+    
+    For more detailed info, you can consult [DeepInfra's documentation](https://deepinfra.com/docs/advanced/openai_api). 
     """)
 
 if "api_key" not in st.session_state:
