@@ -58,9 +58,10 @@ MODEL_CODELLAMA = selected_model
 def get_response(api_key, model, user_input, max_tokens, top_p):
     openai.api_key = api_key
     try:
+        response_json = {}
         if "meta-llama/Meta-Llama-3-8B-Instruct" in model:
             # Assume different API setup for Meta-Llama
-            chat_completion = requests.post(
+            response = requests.post(
                 "https://api.deepinfra.com/v1/openai/chat/completions",
                 headers={"Authorization": f"Bearer {api_key}"},
                 json={
@@ -69,17 +70,22 @@ def get_response(api_key, model, user_input, max_tokens, top_p):
                     "max_tokens": max_tokens,
                     "top_p": top_p
                 }
-            ).json()
-            return chat_completion['choices'][0]['message']['content'], None
+            )
+            response_json = response.json()
         else:
             # Existing setup for other models
-            chat_completion = openai.ChatCompletion.create(
+            response = openai.ChatCompletion.create(
                 model=model,
                 messages=[{"role": "user", "content": user_input}],
                 max_tokens=max_tokens,
                 top_p=top_p
             )
-            return chat_completion.choices[0].message.content, None
+            response_json = response if isinstance(response, dict) else response.__dict__
+
+        if 'choices' in response_json and response_json['choices']:
+            return response_json['choices'][0]['message']['content'], None
+        else:
+            return None, "No 'choices' key found in the response."
     except Exception as e:
         return None, str(e)
 
